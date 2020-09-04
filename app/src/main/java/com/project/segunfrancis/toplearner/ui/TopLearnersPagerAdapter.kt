@@ -3,6 +3,8 @@ package com.project.segunfrancis.toplearner.ui
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.project.segunfrancis.toplearner.ui.learningleaders.LearningLeadersFragment
+import com.project.segunfrancis.toplearner.ui.skilliqleaders.SkillIQLeadersFragment
 import java.io.InvalidObjectException
 
 /**

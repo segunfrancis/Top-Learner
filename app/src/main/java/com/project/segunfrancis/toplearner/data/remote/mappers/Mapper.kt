@@ -5,6 +5,6 @@ package com.project.segunfrancis.toplearner.data.remote.mappers
  */
 
 interface Mapper<I, O> {
-    fun mapToDataLayer(data: I): O
+    fun mapToLocalLayer(data: I): O
     fun mapToRemoteLayer(data: O): I
 }

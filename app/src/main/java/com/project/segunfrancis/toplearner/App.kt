@@ -6,7 +6,7 @@ import com.project.segunfrancis.toplearner.data.local.db.TopLearnerDatabase
 import com.project.segunfrancis.toplearner.data.remote.api.TopLearnerApi
 import com.project.segunfrancis.toplearner.data.remote.api.buildAPIService
 import com.project.segunfrancis.toplearner.repository.TopLearnersRepositoryImpl
-import com.project.segunfrancis.toplearner.ui.LearnersViewModelFactory
+import com.project.segunfrancis.toplearner.ui.viewmodel.LearnersViewModelFactory
 
 /**
  * Created by SegunFrancis
@@ -26,7 +26,9 @@ class App : Application() {
             get() = TopLearnersRepositoryImpl(dao, service)
 
         val viewModelFactory: LearnersViewModelFactory
-            get() = LearnersViewModelFactory(repositoryImpl)
+            get() = LearnersViewModelFactory(
+                repositoryImpl
+            )
     }
 
     override fun onCreate() {

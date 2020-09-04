@@ -1,4 +1,4 @@
-package com.project.segunfrancis.toplearner.ui
+package com.project.segunfrancis.toplearner.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +20,9 @@ class LearnersViewModelFactory(private val repositoryImpl: TopLearnersRepository
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(LearnersViewModel::class.java)) {
-            return LearnersViewModel(repositoryImpl) as T
+            return LearnersViewModel(
+                repositoryImpl
+            ) as T
         } else {
             throw IllegalArgumentException("ViewModel class (${modelClass.name}) is not mapped")
         }
