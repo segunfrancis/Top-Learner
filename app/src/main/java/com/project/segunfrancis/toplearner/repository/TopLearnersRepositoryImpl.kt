@@ -13,6 +13,7 @@ import com.project.segunfrancis.toplearner.util.Result.Error
 import com.project.segunfrancis.toplearner.util.Result.Success
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 /**
@@ -60,11 +61,11 @@ class TopLearnersRepositoryImpl(private val dao: LearnerDao, private val api: To
         }
     }
 
-    override suspend fun getLearningLeadersLocal(): List<LearningLeadersLocal> {
+    override suspend fun getLearningLeadersLocal(): Flow<List<LearningLeadersLocal>> {
         return dao.getLearningLeaders()
     }
 
-    override suspend fun getSkillIQLeadersLocal(): List<SkillIQLeadersLocal> {
+    override suspend fun getSkillIQLeadersLocal(): Flow<List<SkillIQLeadersLocal>> {
         return dao.getSkillIQLeaders()
     }
 }

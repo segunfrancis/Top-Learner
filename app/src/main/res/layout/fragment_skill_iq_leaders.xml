@@ -13,31 +13,45 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_recyclerview" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loading_animation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/loading_animation"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_scale=".5"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading_animation"
+        app:lottie_scale=".5" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/no_network_animation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/network_error_animation"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/no_network_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_scale="2"
+        app:lottie_rawRes="@raw/network_error_animation"
+        app:lottie_scale="2" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/no_network_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_retry"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/no_network_animation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

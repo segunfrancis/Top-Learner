@@ -1,15 +1,13 @@
 package com.project.segunfrancis.toplearner.ui.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.project.segunfrancis.toplearner.data.local.models.LearningLeadersLocal
 import com.project.segunfrancis.toplearner.data.local.models.SkillIQLeadersLocal
 import com.project.segunfrancis.toplearner.data.remote.models.LearningLeadersResponse
 import com.project.segunfrancis.toplearner.data.remote.models.SkillIQLeadersResponse
 import com.project.segunfrancis.toplearner.repository.TopLearnersRepositoryImpl
 import com.project.segunfrancis.toplearner.util.Result
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -17,6 +15,18 @@ import kotlinx.coroutines.launch
  */
 
 class LearnersViewModel(private val repository: TopLearnersRepositoryImpl) : ViewModel() {
+    private var _learningLeadersLocal = MutableLiveData<List<LearningLeadersLocal>>()
+    val learningLeadersLocal: LiveData<List<LearningLeadersLocal>>
+        get() = _learningLeadersLocal
+
+    private var _skillIqLeadersLocal = MutableLiveData<List<SkillIQLeadersLocal>>()
+    val skillIqLeadersLocal: LiveData<List<SkillIQLeadersLocal>>
+        get() = _skillIqLeadersLocal
+
+    init {
+        getLearningLeadersLocal()
+        getSkillIQLeadersLocal()
+    }
 
     val learningLeadersRemote: LiveData<Result<List<LearningLeadersResponse>>> = liveData {
         emit(Result.Loading("Loading"))
@@ -40,11 +50,19 @@ class LearnersViewModel(private val repository: TopLearnersRepositoryImpl) : Vie
         }
     }
 
-    val learningLeadersLocal: LiveData<List<LearningLeadersLocal>> = liveData {
-        emit(repository.getLearningLeadersLocal())
+    private fun getLearningLeadersLocal() {
+        viewModelScope.launch {
+            repository.getLearningLeadersLocal().collect {
+                _learningLeadersLocal.postValue(it)
+            }
+        }
     }
 
-    val skillIqLeadersLocal: LiveData<List<SkillIQLeadersLocal>> = liveData {
-        emit(repository.getSkillIQLeadersLocal())
+    private fun getSkillIQLeadersLocal() {
+        viewModelScope.launch {
+            repository.getSkillIQLeadersLocal().collect {
+                _skillIqLeadersLocal.postValue(it)
+            }
+        }
     }
 }

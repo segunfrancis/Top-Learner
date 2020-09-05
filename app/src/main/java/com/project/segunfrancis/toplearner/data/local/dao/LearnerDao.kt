@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.project.segunfrancis.toplearner.data.local.models.LearningLeadersLocal
 import com.project.segunfrancis.toplearner.data.local.models.SkillIQLeadersLocal
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by SegunFrancis
@@ -21,8 +22,8 @@ interface LearnerDao {
     suspend fun insertSkillIQLeaders(leaders: List<SkillIQLeadersLocal>)
 
     @Query("SELECT * FROM learning_leaders")
-    suspend fun getLearningLeaders(): List<LearningLeadersLocal>
+    fun getLearningLeaders(): Flow<List<LearningLeadersLocal>>
 
     @Query("SELECT * FROM skill_iq_leaders")
-    suspend fun getSkillIQLeaders(): List<SkillIQLeadersLocal>
+    fun getSkillIQLeaders(): Flow<List<SkillIQLeadersLocal>>
 }
