@@ -35,7 +35,7 @@ class SkillIQLeadersFragment : Fragment() {
     ): View? {
         binding = FragmentSkillIqLeadersBinding.inflate(layoutInflater)
         binding.noNetworkButton.setOnClickListener {
-            loadRemoteData()
+            viewModel.skillIQLeadersRemote()
         }
         return binding.root
     }
@@ -57,7 +57,7 @@ class SkillIQLeadersFragment : Fragment() {
     }
 
     private fun loadRemoteData() {
-        viewModel.skillIQLeadersRemote.observe(viewLifecycleOwner, Observer { result ->
+        viewModel.skillIQLeadersRemote().observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Result.Loading -> {
                     binding.loadingAnimation.show()

@@ -28,12 +28,12 @@ class LearnersViewModel(private val repository: TopLearnersRepositoryImpl) : Vie
         getSkillIQLeadersLocal()
     }
 
-    val learningLeadersRemote: LiveData<Result<List<LearningLeadersResponse>>> = liveData {
+    fun learningLeadersRemote(): LiveData<Result<List<LearningLeadersResponse>>> = liveData {
         emit(Result.Loading("Loading"))
         emit(repository.getLearningLeadersRemote())
     }
 
-    val skillIQLeadersRemote: LiveData<Result<List<SkillIQLeadersResponse>>> = liveData {
+    fun skillIQLeadersRemote(): LiveData<Result<List<SkillIQLeadersResponse>>> = liveData {
         emit(Result.Loading("Loading"))
         emit(repository.getSkillIQLeadersRemote())
     }

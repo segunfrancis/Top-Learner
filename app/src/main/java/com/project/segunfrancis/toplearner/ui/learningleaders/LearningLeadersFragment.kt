@@ -35,7 +35,7 @@ class LearningLeadersFragment : Fragment() {
     ): View? {
         binding = FragmentLearningLeadersBinding.inflate(layoutInflater)
         binding.noNetworkButton.setOnClickListener {
-            loadRemoteData()
+            viewModel.learningLeadersRemote()
         }
         return binding.root
     }
@@ -57,7 +57,7 @@ class LearningLeadersFragment : Fragment() {
     }
 
     private fun loadRemoteData() {
-        viewModel.learningLeadersRemote.observe(viewLifecycleOwner, Observer { result ->
+        viewModel.learningLeadersRemote().observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Result.Loading -> {
                     binding.loadingAnimation.show()
