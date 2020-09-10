@@ -9,7 +9,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.segunfrancis.toplearner.App
-import com.project.segunfrancis.toplearner.data.local.models.SkillIQLeadersLocal
+import com.project.segunfrancis.toplearner.util.Result.Success
+import com.project.segunfrancis.toplearner.util.Result.Error
+import com.project.segunfrancis.toplearner.util.Result.Loading
 import com.project.segunfrancis.toplearner.databinding.FragmentSkillIqLeadersBinding
 import com.project.segunfrancis.toplearner.ui.viewmodel.LearnersViewModel
 import com.project.segunfrancis.toplearner.util.*
@@ -35,56 +37,43 @@ class SkillIQLeadersFragment : Fragment() {
     ): View? {
         binding = FragmentSkillIqLeadersBinding.inflate(layoutInflater)
         binding.noNetworkButton.setOnClickListener {
-            viewModel.skillIQLeadersRemote()
+            loadRemoteData()
         }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.skillIqLeadersLocal.observe(viewLifecycleOwner, Observer { leaders ->
-            if (leaders.isNullOrEmpty()) {
-                loadRemoteData()
-            } else {
-                // Display cached data
-                skillLeadersAdapter.setData(leaders)
-                binding.skillIqLeadersRecyclerView.apply {
-                    layoutManager = LinearLayoutManager(requireContext())
-                    adapter = skillLeadersAdapter
-                    addItemDecoration(MarginItemDecoration(16))
+        loadRemoteData()
+
+        viewModel.skillIqLeadersLocal.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is Success -> {
+                    skillLeadersAdapter.setData(result.data)
+                    binding.skillIqLeadersRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(requireContext())
+                        adapter = skillLeadersAdapter
+                        addItemDecoration(MarginItemDecoration(16))
+                    }
+                    binding.loadingAnimation.hide()
+                    binding.noNetworkAnimation.hide()
+                    binding.noNetworkButton.hide()
+                }
+                is Error -> {
+                    binding.root.displaySnackBar(result.error)
+                    binding.noNetworkAnimation.show()
+                    binding.noNetworkButton.show()
+                    binding.loadingAnimation.hide()
+                }
+                is Loading -> {
+                    binding.loadingAnimation.show()
+                    binding.noNetworkAnimation.hide()
+                    binding.noNetworkButton.hide()
                 }
             }
         })
     }
 
     private fun loadRemoteData() {
-        viewModel.skillIQLeadersRemote().observe(viewLifecycleOwner, Observer { result ->
-            when (result) {
-                is Result.Loading -> {
-                    binding.loadingAnimation.show()
-                    binding.noNetworkAnimation.hide()
-                    binding.noNetworkButton.hide()
-                }
-                is Result.Success -> {
-                    viewModel.insertSkillIqLeaders(result.data.map { data ->
-                        SkillIQLeadersLocal(
-                            id = data.id,
-                            name = data.name,
-                            country = data.country,
-                            score = data.score,
-                            badgeUrl = data.badgeUrl
-                        )
-                    })
-                    binding.loadingAnimation.hide()
-                    binding.noNetworkAnimation.hide()
-                    binding.noNetworkButton.hide()
-                }
-                is Result.Error -> {
-                    binding.root.displaySnackBar(result.error?.localizedMessage.toString())
-                    binding.noNetworkAnimation.show()
-                    binding.noNetworkButton.show()
-                    binding.loadingAnimation.hide()
-                }
-            }
-        })
+        viewModel.skillIQLeadersRemote()
     }
 }

@@ -3,6 +3,7 @@ package com.project.segunfrancis.toplearner.data.remote.repository
 import com.project.segunfrancis.toplearner.data.remote.models.LearningLeadersResponse
 import com.project.segunfrancis.toplearner.data.remote.models.SkillIQLeadersResponse
 import com.project.segunfrancis.toplearner.util.Result
+import retrofit2.Call
 
 /**
  * Created by SegunFrancis
@@ -10,9 +11,15 @@ import com.project.segunfrancis.toplearner.util.Result
 
 interface RemoteRepository {
 
-    suspend fun getLearningLeadersRemote(): Result<List<LearningLeadersResponse>>
+    fun getLearningLeadersRemote(
+        onSuccess: (List<LearningLeadersResponse>?) -> Unit,
+        onFailure: (String) -> Unit
+    )
 
-    suspend fun getSkillIQLeadersRemote(): Result<List<SkillIQLeadersResponse>>
+    fun getSkillIQLeadersRemote(
+        onSuccess: (List<SkillIQLeadersResponse>?) -> Unit,
+        onFailure: (String) -> Unit
+    )
 
     suspend fun submitProject(
         firstName: String,

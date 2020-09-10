@@ -2,6 +2,7 @@ package com.project.segunfrancis.toplearner.data.remote.api
 
 import com.project.segunfrancis.toplearner.data.remote.models.LearningLeadersResponse
 import com.project.segunfrancis.toplearner.data.remote.models.SkillIQLeadersResponse
+import retrofit2.Call
 import retrofit2.http.*
 
 /**
@@ -10,10 +11,10 @@ import retrofit2.http.*
 
 interface TopLearnerApi {
     @GET("api/hours")
-    suspend fun getLearningLeaders(): List<LearningLeadersResponse>
+    fun getLearningLeaders(): Call<List<LearningLeadersResponse>>
 
     @GET("api/skilliq")
-    suspend fun getSkillIQLeaders(): List<SkillIQLeadersResponse>
+    fun getSkillIQLeaders(): Call<List<SkillIQLeadersResponse>>
 
     @POST("1FAIpQLSf9d1TcNU6zc6KR8bSEM41Z1g1zl35cwZr2xyjIhaMAz8WChQ/formResponse")
     @FormUrlEncoded

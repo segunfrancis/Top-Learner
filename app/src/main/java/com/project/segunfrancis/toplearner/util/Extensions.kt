@@ -15,6 +15,6 @@ fun View.show() {
     visibility = View.VISIBLE
 }
 
-fun View.displaySnackBar(message: String) {
-    Snackbar.make(this, message, Snackbar.LENGTH_LONG).show()
+fun View.displaySnackBar(message: String?) {
+    Snackbar.make(this, message!!, Snackbar.LENGTH_LONG).show()
 }

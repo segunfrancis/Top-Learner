@@ -9,7 +9,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.segunfrancis.toplearner.App
-import com.project.segunfrancis.toplearner.data.local.models.LearningLeadersLocal
+import com.project.segunfrancis.toplearner.util.Result.Success
+import com.project.segunfrancis.toplearner.util.Result.Error
+import com.project.segunfrancis.toplearner.util.Result.Loading
 import com.project.segunfrancis.toplearner.databinding.FragmentLearningLeadersBinding
 import com.project.segunfrancis.toplearner.ui.viewmodel.LearnersViewModel
 import com.project.segunfrancis.toplearner.util.*
@@ -35,56 +37,43 @@ class LearningLeadersFragment : Fragment() {
     ): View? {
         binding = FragmentLearningLeadersBinding.inflate(layoutInflater)
         binding.noNetworkButton.setOnClickListener {
-            viewModel.learningLeadersRemote()
+            loadRemoteData()
         }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.learningLeadersLocal.observe(viewLifecycleOwner, Observer { leaders ->
-            if (leaders.isNullOrEmpty()) {
-                loadRemoteData()
-            } else {
-                // Display cached data
-                learningLeadersAdapter.setData(leaders)
-                binding.learningLeadersRecyclerView.apply {
-                    layoutManager = LinearLayoutManager(requireContext())
-                    adapter = learningLeadersAdapter
-                    addItemDecoration(MarginItemDecoration(16))
+        loadRemoteData()
+
+        viewModel.learningLeadersLocal.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is Success -> {
+                    learningLeadersAdapter.setData(result.data)
+                    binding.learningLeadersRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(requireContext())
+                        adapter = learningLeadersAdapter
+                        addItemDecoration(MarginItemDecoration(16))
+                    }
+                    binding.loadingAnimation.hide()
+                    binding.noNetworkAnimation.hide()
+                    binding.noNetworkButton.hide()
+                }
+                is Error -> {
+                    binding.root.displaySnackBar(result.error)
+                    binding.noNetworkAnimation.show()
+                    binding.loadingAnimation.hide()
+                    binding.noNetworkButton.show()
+                }
+                is Loading -> {
+                    binding.loadingAnimation.show()
+                    binding.noNetworkAnimation.hide()
+                    binding.noNetworkButton.hide()
                 }
             }
         })
     }
 
     private fun loadRemoteData() {
-        viewModel.learningLeadersRemote().observe(viewLifecycleOwner, Observer { result ->
-            when (result) {
-                is Result.Loading -> {
-                    binding.loadingAnimation.show()
-                    binding.noNetworkAnimation.hide()
-                    binding.noNetworkButton.hide()
-                }
-                is Result.Success -> {
-                    viewModel.insertLearningLeaders(result.data.map { data ->
-                        LearningLeadersLocal(
-                            id = data.id,
-                            name = data.name,
-                            country = data.country,
-                            hours = data.hours,
-                            badgeUrl = data.badgeUrl
-                        )
-                    })
-                    binding.loadingAnimation.hide()
-                    binding.noNetworkAnimation.hide()
-                    binding.noNetworkButton.hide()
-                }
-                is Result.Error -> {
-                    binding.root.displaySnackBar(result.error?.localizedMessage!!)
-                    binding.noNetworkAnimation.show()
-                    binding.loadingAnimation.hide()
-                    binding.noNetworkButton.show()
-                }
-            }
-        })
+        viewModel.learningLeadersRemote()
     }
 }
