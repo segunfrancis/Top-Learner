@@ -7,7 +7,7 @@ import com.project.segunfrancis.toplearner.data.remote.models.SkillIQLeadersResp
  * Created by SegunFrancis
  */
 
-interface RemoteRepository {
+interface TopLearnersRemoteRepository {
 
     fun getLearningLeadersRemote(
         onSuccess: (List<LearningLeadersResponse>?) -> Unit,
@@ -17,12 +17,5 @@ interface RemoteRepository {
     fun getSkillIQLeadersRemote(
         onSuccess: (List<SkillIQLeadersResponse>?) -> Unit,
         onFailure: (String) -> Unit
-    )
-
-    suspend fun submitProject(
-        firstName: String,
-        lastName: String,
-        emailAddress: String,
-        linkToProject: String
     )
 }

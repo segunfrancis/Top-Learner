@@ -5,6 +5,8 @@ import com.project.segunfrancis.toplearner.data.local.dao.LearnerDao
 import com.project.segunfrancis.toplearner.data.local.db.TopLearnerDatabase
 import com.project.segunfrancis.toplearner.data.remote.api.TopLearnerApi
 import com.project.segunfrancis.toplearner.data.remote.api.buildAPIService
+import com.project.segunfrancis.toplearner.data.remote.api.buildSubmissionService
+import com.project.segunfrancis.toplearner.repository.SubmissionRepositoryImpl
 import com.project.segunfrancis.toplearner.repository.TopLearnersRepositoryImpl
 import com.project.segunfrancis.toplearner.ui.viewmodel.LearnersViewModelFactory
 
@@ -24,12 +26,19 @@ class App : Application() {
         private val service: TopLearnerApi
             get() = buildAPIService()
 
-        private val repositoryImpl: TopLearnersRepositoryImpl
+        private val submissionService: TopLearnerApi
+            get() = buildSubmissionService()
+
+        private val topLearnersRepositoryImpl: TopLearnersRepositoryImpl
             get() = TopLearnersRepositoryImpl(dao, service)
+
+        private val submissionRepositoryImpl: SubmissionRepositoryImpl
+            get() = SubmissionRepositoryImpl(submissionService)
 
         val viewModelFactory: LearnersViewModelFactory
             get() = LearnersViewModelFactory(
-                repositoryImpl
+                topLearnersRepositoryImpl,
+                submissionRepositoryImpl
             )
     }
 

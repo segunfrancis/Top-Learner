@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.project.segunfrancis.toplearner.BuildConfig
 import com.project.segunfrancis.toplearner.util.AppConstants.BASE_URL
 import com.project.segunfrancis.toplearner.util.AppConstants.CALL_TIMEOUT
+import com.project.segunfrancis.toplearner.util.AppConstants.SUBMISSION_BASE_URL
 import com.project.segunfrancis.toplearner.util.AppConstants.WRITE_TIMEOUT
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,12 +36,13 @@ fun okHttpClient(): OkHttpClient {
     return clientBuilder.build()
 }
 
-fun buildRetrofit(): Retrofit {
+fun buildRetrofit(baseUrl: String): Retrofit {
     return Retrofit.Builder()
         .client(okHttpClient())
-        .baseUrl(BASE_URL)
+        .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create(gson()))
         .build()
 }
 
-fun buildAPIService(): TopLearnerApi = buildRetrofit().create(TopLearnerApi::class.java)
+fun buildAPIService(): TopLearnerApi = buildRetrofit(BASE_URL).create(TopLearnerApi::class.java)
+fun buildSubmissionService(): TopLearnerApi = buildRetrofit(SUBMISSION_BASE_URL).create(TopLearnerApi::class.java)

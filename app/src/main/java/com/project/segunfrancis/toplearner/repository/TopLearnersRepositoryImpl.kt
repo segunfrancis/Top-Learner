@@ -7,7 +7,7 @@ import com.project.segunfrancis.toplearner.data.local.repository.LocalRepository
 import com.project.segunfrancis.toplearner.data.remote.api.TopLearnerApi
 import com.project.segunfrancis.toplearner.data.remote.models.LearningLeadersResponse
 import com.project.segunfrancis.toplearner.data.remote.models.SkillIQLeadersResponse
-import com.project.segunfrancis.toplearner.data.remote.repository.RemoteRepository
+import com.project.segunfrancis.toplearner.data.remote.repository.TopLearnersRemoteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,7 @@ import retrofit2.Response
  */
 
 class TopLearnersRepositoryImpl(private val dao: LearnerDao, private val api: TopLearnerApi) :
-    RemoteRepository, LocalRepository {
+    TopLearnersRemoteRepository, LocalRepository {
     override fun getLearningLeadersRemote(
         onSuccess: (List<LearningLeadersResponse>?) -> Unit,
         onFailure: (String) -> Unit
@@ -56,17 +56,6 @@ class TopLearnersRepositoryImpl(private val dao: LearnerDao, private val api: To
                 onFailure(t.localizedMessage!!)
             }
         })
-    }
-
-    override suspend fun submitProject(
-        firstName: String,
-        lastName: String,
-        emailAddress: String,
-        linkToProject: String
-    ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            api.submitProject(firstName, lastName, emailAddress, linkToProject)
-        }
     }
 
     override suspend fun insertLearningLeaders(leaders: List<LearningLeadersLocal>) {

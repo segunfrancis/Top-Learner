@@ -2,13 +2,17 @@ package com.project.segunfrancis.toplearner.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.project.segunfrancis.toplearner.repository.SubmissionRepositoryImpl
 import com.project.segunfrancis.toplearner.repository.TopLearnersRepositoryImpl
 
 /**
  * Created by SegunFrancis
  */
 
-class LearnersViewModelFactory(private val repositoryImpl: TopLearnersRepositoryImpl) :
+class LearnersViewModelFactory(
+    private val repositoryImpl: TopLearnersRepositoryImpl,
+    private val submissionRepositoryImpl: SubmissionRepositoryImpl
+) :
     ViewModelProvider.Factory {
     /**
      * Creates a new instance of the given `Class`.
@@ -19,12 +23,15 @@ class LearnersViewModelFactory(private val repositoryImpl: TopLearnersRepository
     </T> */
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LearnersViewModel::class.java)) {
-            return LearnersViewModel(
-                repositoryImpl
-            ) as T
-        } else {
-            throw IllegalArgumentException("ViewModel class (${modelClass.name}) is not mapped")
-        }
+        return with(modelClass) {
+            when {
+                isAssignableFrom(LearnersViewModel::class.java) ->
+                    LearnersViewModel(repositoryImpl)
+                isAssignableFrom(SubmissionViewModel::class.java) ->
+                    SubmissionViewModel(submissionRepositoryImpl)
+                else ->
+                    throw IllegalArgumentException("ViewModel class (${modelClass.name}) is not mapped")
+            }
+        } as T
     }
 }

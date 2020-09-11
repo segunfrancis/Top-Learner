@@ -3,6 +3,7 @@ package com.project.segunfrancis.toplearner.ui.main.skilliqleaders
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import coil.api.load
 import com.project.segunfrancis.toplearner.R
 import com.project.segunfrancis.toplearner.data.local.models.SkillIQLeadersLocal
 import com.project.segunfrancis.toplearner.databinding.ItemRecyclerviewBinding
