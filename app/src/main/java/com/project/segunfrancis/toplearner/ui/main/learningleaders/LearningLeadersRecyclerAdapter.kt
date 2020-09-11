@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import coil.api.load
 import com.project.segunfrancis.toplearner.R
-import com.project.segunfrancis.toplearner.data.local.models.LearningLeadersLocal
+import com.project.segunfrancis.toplearner.data.remote.models.LearningLeadersResponse
 import com.project.segunfrancis.toplearner.databinding.ItemRecyclerviewBinding
 import java.util.*
 
@@ -15,7 +15,7 @@ import java.util.*
 class LearningLeadersRecyclerAdapter :
     RecyclerView.Adapter<LearningLeadersRecyclerAdapter.TopLearnersRecyclerViewHolder>() {
 
-    private var data: List<LearningLeadersLocal> = ArrayList()
+    private var data: List<LearningLeadersResponse> = ArrayList()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,14 +34,14 @@ class LearningLeadersRecyclerAdapter :
     override fun onBindViewHolder(holder: TopLearnersRecyclerViewHolder, position: Int) =
         holder.bind(data[position])
 
-    fun setData(data: List<LearningLeadersLocal>) {
+    fun setData(data: List<LearningLeadersResponse>) {
         this.data = data
         notifyDataSetChanged()
     }
 
     class TopLearnersRecyclerViewHolder(private val binding: ItemRecyclerviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: LearningLeadersLocal) = with(binding) {
+        fun bind(item: LearningLeadersResponse) = with(binding) {
             binding.learnerImage.load(item.badgeUrl) {
                 error(R.drawable.ic_broken)
             }

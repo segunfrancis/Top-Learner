@@ -1,17 +1,9 @@
 package com.project.segunfrancis.toplearner.repository
 
-import com.project.segunfrancis.toplearner.data.local.dao.LearnerDao
-import com.project.segunfrancis.toplearner.data.local.models.LearningLeadersLocal
-import com.project.segunfrancis.toplearner.data.local.models.SkillIQLeadersLocal
-import com.project.segunfrancis.toplearner.data.local.repository.LocalRepository
 import com.project.segunfrancis.toplearner.data.remote.api.TopLearnerApi
 import com.project.segunfrancis.toplearner.data.remote.models.LearningLeadersResponse
 import com.project.segunfrancis.toplearner.data.remote.models.SkillIQLeadersResponse
 import com.project.segunfrancis.toplearner.data.remote.repository.TopLearnersRemoteRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,8 +12,8 @@ import retrofit2.Response
  * Created by SegunFrancis
  */
 
-class TopLearnersRepositoryImpl(private val dao: LearnerDao, private val api: TopLearnerApi) :
-    TopLearnersRemoteRepository, LocalRepository {
+class TopLearnersRepositoryImpl(private val api: TopLearnerApi) :
+    TopLearnersRemoteRepository {
     override fun getLearningLeadersRemote(
         onSuccess: (List<LearningLeadersResponse>?) -> Unit,
         onFailure: (String) -> Unit
@@ -56,25 +48,5 @@ class TopLearnersRepositoryImpl(private val dao: LearnerDao, private val api: To
                 onFailure(t.localizedMessage!!)
             }
         })
-    }
-
-    override suspend fun insertLearningLeaders(leaders: List<LearningLeadersLocal>) {
-        CoroutineScope(Dispatchers.IO).launch {
-            dao.insertLearningLeaders(leaders)
-        }
-    }
-
-    override suspend fun insertSkillIQLeaders(leaders: List<SkillIQLeadersLocal>) {
-        CoroutineScope(Dispatchers.IO).launch {
-            dao.insertSkillIQLeaders(leaders)
-        }
-    }
-
-    override suspend fun getLearningLeadersLocal(): Flow<List<LearningLeadersLocal>> {
-        return dao.getLearningLeaders()
-    }
-
-    override suspend fun getSkillIQLeadersLocal(): Flow<List<SkillIQLeadersLocal>> {
-        return dao.getSkillIQLeaders()
     }
 }

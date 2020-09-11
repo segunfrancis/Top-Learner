@@ -48,8 +48,7 @@ class SkillIQLeadersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadRemoteData()
-        viewModel.getSkillIQLeadersLocal()
-        viewModel.skillIqLeadersLocal.observe(viewLifecycleOwner, Observer { result ->
+        viewModel.skillIqLeaders.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Success -> {
                     skillLeadersAdapter.setData(result.data)

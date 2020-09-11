@@ -1,84 +1,40 @@
 package com.project.segunfrancis.toplearner.ui.viewmodel
 
 import androidx.lifecycle.*
-import com.project.segunfrancis.toplearner.data.local.models.LearningLeadersLocal
-import com.project.segunfrancis.toplearner.data.local.models.SkillIQLeadersLocal
-import com.project.segunfrancis.toplearner.util.mapLearningLeadersResponseToLocal
-import com.project.segunfrancis.toplearner.util.mapSkillIQLeadersResponseToLocal
+import com.project.segunfrancis.toplearner.data.remote.models.LearningLeadersResponse
+import com.project.segunfrancis.toplearner.data.remote.models.SkillIQLeadersResponse
 import com.project.segunfrancis.toplearner.repository.TopLearnersRepositoryImpl
 import com.project.segunfrancis.toplearner.util.Result
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 /**
  * Created by SegunFrancis
  */
 
 class LearnersViewModel(private val repository: TopLearnersRepositoryImpl) : ViewModel() {
-    private var _learningLeadersLocal = MutableLiveData<Result<List<LearningLeadersLocal>>>()
-    val learningLeadersLocal: LiveData<Result<List<LearningLeadersLocal>>>
+    private var _learningLeadersLocal = MutableLiveData<Result<List<LearningLeadersResponse>>>()
+    val learningLeaders: LiveData<Result<List<LearningLeadersResponse>>>
         get() = _learningLeadersLocal
 
-    private var _skillIqLeadersLocal = MutableLiveData<Result<List<SkillIQLeadersLocal>>>()
-    val skillIqLeadersLocal: LiveData<Result<List<SkillIQLeadersLocal>>>
+    private var _skillIqLeadersLocal = MutableLiveData<Result<List<SkillIQLeadersResponse>>>()
+    val skillIqLeaders: LiveData<Result<List<SkillIQLeadersResponse>>>
         get() = _skillIqLeadersLocal
 
     fun learningLeadersRemote() {
         _learningLeadersLocal.postValue(Result.Loading("Loading..."))
         repository.getLearningLeadersRemote(
             { list ->
-                insertLearningLeaders(list!!.map {
-                    mapLearningLeadersResponseToLocal(
-                        it
-                    )
-                })
-                //getLearningLeadersLocal()
+                _learningLeadersLocal.postValue(Result.Success(list!!))
             }, { localizedMessage ->
                 _learningLeadersLocal.postValue(Result.Error(localizedMessage))
-                //getLearningLeadersLocal()
             })
     }
 
     fun skillIQLeadersRemote() {
         _skillIqLeadersLocal.postValue(Result.Loading("Loading..."))
         repository.getSkillIQLeadersRemote({ list ->
-            insertSkillIqLeaders(list!!.map {
-                mapSkillIQLeadersResponseToLocal(
-                    it
-                )
-            })
-            //getSkillIQLeadersLocal()
+            _skillIqLeadersLocal.postValue(Result.Success(list!!))
         }, { localizedMessage ->
             _skillIqLeadersLocal.postValue(Result.Error(localizedMessage))
-            //getSkillIQLeadersLocal()
         })
-    }
-
-    private fun insertLearningLeaders(leaders: List<LearningLeadersLocal>) {
-        viewModelScope.launch {
-            repository.insertLearningLeaders(leaders)
-        }
-    }
-
-    private fun insertSkillIqLeaders(leaders: List<SkillIQLeadersLocal>) {
-        viewModelScope.launch {
-            repository.insertSkillIQLeaders(leaders)
-        }
-    }
-
-    fun getLearningLeadersLocal() {
-        viewModelScope.launch {
-            repository.getLearningLeadersLocal().collect {
-                _learningLeadersLocal.postValue(Result.Success(it))
-            }
-        }
-    }
-
-    fun getSkillIQLeadersLocal() {
-        viewModelScope.launch {
-            repository.getSkillIQLeadersLocal().collect {
-                _skillIqLeadersLocal.postValue(Result.Success(it))
-            }
-        }
     }
 }

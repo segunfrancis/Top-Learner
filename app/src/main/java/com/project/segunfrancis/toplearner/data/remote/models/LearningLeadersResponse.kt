@@ -5,7 +5,6 @@ package com.project.segunfrancis.toplearner.data.remote.models
  */
 
 data class LearningLeadersResponse(
-    val id: Long,
     val name: String,
     val hours: Int,
     val country: String,

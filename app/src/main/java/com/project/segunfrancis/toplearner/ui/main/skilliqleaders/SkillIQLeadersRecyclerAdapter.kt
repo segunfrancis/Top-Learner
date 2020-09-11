@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import coil.api.load
 import com.project.segunfrancis.toplearner.R
-import com.project.segunfrancis.toplearner.data.local.models.SkillIQLeadersLocal
+import com.project.segunfrancis.toplearner.data.remote.models.SkillIQLeadersResponse
 import com.project.segunfrancis.toplearner.databinding.ItemRecyclerviewBinding
 import java.util.*
 
@@ -15,7 +15,7 @@ import java.util.*
 class SkillIQLeadersRecyclerAdapter :
     RecyclerView.Adapter<SkillIQLeadersRecyclerAdapter.TopLearnersRecyclerViewHolder>() {
 
-    private var data: List<SkillIQLeadersLocal> = ArrayList()
+    private var data: List<SkillIQLeadersResponse> = ArrayList()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,7 +23,8 @@ class SkillIQLeadersRecyclerAdapter :
     ): TopLearnersRecyclerViewHolder {
         return TopLearnersRecyclerViewHolder(
             ItemRecyclerviewBinding.bind(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_recyclerview, parent, false)
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_recyclerview, parent, false)
             )
         )
     }
@@ -33,19 +34,20 @@ class SkillIQLeadersRecyclerAdapter :
     override fun onBindViewHolder(holder: TopLearnersRecyclerViewHolder, position: Int) =
         holder.bind(data[position])
 
-    fun setData(data: List<SkillIQLeadersLocal>) {
+    fun setData(data: List<SkillIQLeadersResponse>) {
         this.data = data
         notifyDataSetChanged()
     }
 
     class TopLearnersRecyclerViewHolder(private val binding: ItemRecyclerviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SkillIQLeadersLocal) = with(binding) {
+        fun bind(item: SkillIQLeadersResponse) = with(binding) {
             binding.learnerImage.load(item.badgeUrl) {
                 error(R.drawable.ic_broken)
             }
             binding.learnerNameText.text = item.name
-            binding.learnerDetailText.text = item.score.toString().plus(" skill IQ score, ").plus(item.country)
+            binding.learnerDetailText.text =
+                item.score.toString().plus(" skill IQ score, ").plus(item.country)
         }
     }
 }

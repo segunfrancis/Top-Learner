@@ -48,8 +48,7 @@ class LearningLeadersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadRemoteData()
-        viewModel.getLearningLeadersLocal()
-        viewModel.learningLeadersLocal.observe(viewLifecycleOwner, Observer { result ->
+        viewModel.learningLeaders.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Success -> {
                     learningLeadersAdapter.setData(result.data)
