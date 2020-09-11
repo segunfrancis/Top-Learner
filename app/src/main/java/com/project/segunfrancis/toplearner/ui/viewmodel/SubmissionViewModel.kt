@@ -21,7 +21,7 @@ class SubmissionViewModel(private val repository: SubmissionRepositoryImpl) : Vi
         emailAddress: String,
         linkToProject: String
     ) {
-        _submissionResponse.postValue(Result.Loading("Loading"))
+        _submissionResponse.postValue(Result.Loading("Submitting..."))
         repository.submitProject(
             firstName,
             lastName,

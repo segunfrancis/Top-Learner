@@ -17,7 +17,7 @@ import com.project.segunfrancis.toplearner.data.local.models.SkillIQLeadersLocal
     version = 1,
     exportSchema = false
 )
-abstract class TopLearnerDatabase() : RoomDatabase() {
+abstract class TopLearnerDatabase : RoomDatabase() {
     abstract fun learnerDao(): LearnerDao
 
     companion object {

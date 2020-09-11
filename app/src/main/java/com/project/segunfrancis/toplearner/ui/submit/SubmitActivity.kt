@@ -2,16 +2,21 @@ package com.project.segunfrancis.toplearner.ui.submit
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.project.segunfrancis.toplearner.App
 import com.project.segunfrancis.toplearner.databinding.ActivitySubmitBinding
 import com.project.segunfrancis.toplearner.ui.viewmodel.SubmissionViewModel
-import com.project.segunfrancis.toplearner.util.displaySnackBar
+import com.project.segunfrancis.toplearner.util.MyProgressDialog
+import com.project.segunfrancis.toplearner.util.Result.Loading
+import com.project.segunfrancis.toplearner.util.Result.Error
+import com.project.segunfrancis.toplearner.util.Result.Success
 
-class SubmitActivity : AppCompatActivity() {
+class SubmitActivity : AppCompatActivity(), SubmitPromptDialog.SubmitButtonClickListener {
 
     private lateinit var binding: ActivitySubmitBinding
     private lateinit var viewModel: SubmissionViewModel
+    private lateinit var progressDialog: MyProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,12 +28,13 @@ class SubmitActivity : AppCompatActivity() {
         binding.backButton.setOnClickListener {
             finish()
         }
-
+        progressDialog = MyProgressDialog(this)
         binding.submitButton.setOnClickListener {
             if (fieldsAreValid()) {
-                binding.root.displaySnackBar("All Fields are valid")
+                showDialog()
             }
         }
+        observeResponse()
     }
 
     private fun fieldsAreValid(): Boolean {
@@ -41,5 +47,37 @@ class SubmitActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    private fun observeResponse() {
+        viewModel.submissionResponse.observe(this, Observer { result ->
+            when (result) {
+                is Loading -> {
+                    progressDialog.setMessage(result.message)
+                    progressDialog.show()
+                }
+                is Success -> {
+                    SubmissionSuccessful().show(supportFragmentManager, "SubmissionSuccessful")
+                    progressDialog.hide()
+                }
+                is Error -> {
+                    SubmissionUnsuccessful().show(supportFragmentManager, "SubmissionUnsuccessful")
+                    progressDialog.hide()
+                }
+            }
+        })
+    }
+
+    private fun showDialog() {
+        SubmitPromptDialog(this@SubmitActivity).show(supportFragmentManager, "SubmitPromptDialog")
+    }
+
+    override fun onButtonClick() {
+        viewModel.submitProject(
+            binding.firstNameEt.text.toString().trim(),
+            binding.lastNameEt.text.toString().trim(),
+            binding.emailEt.text.toString().trim(),
+            binding.projectLinkEt.text.toString().trim()
+        )
     }
 }

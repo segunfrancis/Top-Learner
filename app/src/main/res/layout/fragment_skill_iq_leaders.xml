@@ -7,7 +7,6 @@
     tools:context=".ui.main.skilliqleaders.SkillIQLeadersFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/skill_iq_leaders_recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="vertical"
@@ -18,7 +17,6 @@
         tools:listitem="@layout/item_recyclerview" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loading_animation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

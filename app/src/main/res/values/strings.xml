@@ -1,17 +1,10 @@
 <resources>
     <string name="app_name">Top Learner</string>
-    <string name="action_submit">SUBMIT</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
     <string name="learning_leaders_title">Learning Leaders</string>
     <string name="skill_iq_leaders_title">Skill IQ Leaders</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="desc_learner_image">Learner image</string>
     <string name="text_retry">Retry</string>
     <string name="desc_splash_image">splash screen image</string>
@@ -25,4 +18,12 @@
     <string name="text_submit">Submit</string>
     <string name="desc_back_button">Back button</string>
     <string name="text_leaderboard">Leaderboard</string>
+    <string name="text_are_you_sure">Are you sure</string>
+    <string name="text_question_mark">"?"</string>
+    <string name="text_yes">Yes</string>
+    <string name="desc_submission_successful">submission successful image</string>
+    <string name="text_submission_successful">Submission Successful</string>
+    <string name="desc_submission_unsuccessful">submission unsuccessful image</string>
+    <string name="text_submission_not_successful">Submission not Successful</string>
+    <string name="desc_cancel_icon">cancel icon</string>
 </resources>
