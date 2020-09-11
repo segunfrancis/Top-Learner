@@ -14,4 +14,15 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="desc_learner_image">Learner image</string>
     <string name="text_retry">Retry</string>
+    <string name="desc_splash_image">splash screen image</string>
+    <string name="desc_gads_header_image">GADS header image</string>
+    <string name="text_project_submission">Project Submission</string>
+    <string name="desc_divider">divider</string>
+    <string name="text_first_name">First Name</string>
+    <string name="text_last_name">Last Name</string>
+    <string name="text_email_address">Email Address</string>
+    <string name="text_project_link">Project on Github (link)</string>
+    <string name="text_submit">Submit</string>
+    <string name="desc_back_button">Back button</string>
+    <string name="text_leaderboard">Leaderboard</string>
 </resources>

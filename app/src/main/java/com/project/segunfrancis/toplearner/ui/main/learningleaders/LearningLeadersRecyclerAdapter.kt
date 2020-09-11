@@ -1,21 +1,21 @@
-package com.project.segunfrancis.toplearner.ui.skilliqleaders
+package com.project.segunfrancis.toplearner.ui.main.learningleaders
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import coil.api.load
 import com.project.segunfrancis.toplearner.R
-import com.project.segunfrancis.toplearner.data.local.models.SkillIQLeadersLocal
+import com.project.segunfrancis.toplearner.data.local.models.LearningLeadersLocal
 import com.project.segunfrancis.toplearner.databinding.ItemRecyclerviewBinding
 import java.util.*
 
 /**
  * Created by SegunFrancis
  */
-class SkillIQLeadersRecyclerAdapter :
-    RecyclerView.Adapter<SkillIQLeadersRecyclerAdapter.TopLearnersRecyclerViewHolder>() {
+class LearningLeadersRecyclerAdapter :
+    RecyclerView.Adapter<LearningLeadersRecyclerAdapter.TopLearnersRecyclerViewHolder>() {
 
-    private var data: List<SkillIQLeadersLocal> = ArrayList()
+    private var data: List<LearningLeadersLocal> = ArrayList()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,7 +23,8 @@ class SkillIQLeadersRecyclerAdapter :
     ): TopLearnersRecyclerViewHolder {
         return TopLearnersRecyclerViewHolder(
             ItemRecyclerviewBinding.bind(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_recyclerview, parent, false)
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_recyclerview, parent, false)
             )
         )
     }
@@ -33,19 +34,19 @@ class SkillIQLeadersRecyclerAdapter :
     override fun onBindViewHolder(holder: TopLearnersRecyclerViewHolder, position: Int) =
         holder.bind(data[position])
 
-    fun setData(data: List<SkillIQLeadersLocal>) {
+    fun setData(data: List<LearningLeadersLocal>) {
         this.data = data
         notifyDataSetChanged()
     }
 
     class TopLearnersRecyclerViewHolder(private val binding: ItemRecyclerviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SkillIQLeadersLocal) = with(binding) {
+        fun bind(item: LearningLeadersLocal) = with(binding) {
             binding.learnerImage.load(item.badgeUrl) {
                 error(R.drawable.ic_broken)
             }
             binding.learnerNameText.text = item.name
-            binding.learnerDetailText.text = item.score.toString().plus(" skill IQ score, ").plus(item.country)
+            binding.learnerDetailText.text = item.hours.toString().plus(" learning hours, ").plus(item.country)
         }
     }
 }

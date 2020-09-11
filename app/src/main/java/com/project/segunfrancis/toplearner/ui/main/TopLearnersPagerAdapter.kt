@@ -1,10 +1,10 @@
-package com.project.segunfrancis.toplearner.ui
+package com.project.segunfrancis.toplearner.ui.main
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.project.segunfrancis.toplearner.ui.learningleaders.LearningLeadersFragment
-import com.project.segunfrancis.toplearner.ui.skilliqleaders.SkillIQLeadersFragment
+import com.project.segunfrancis.toplearner.ui.main.learningleaders.LearningLeadersFragment
+import com.project.segunfrancis.toplearner.ui.main.skilliqleaders.SkillIQLeadersFragment
 import java.io.InvalidObjectException
 
 /**

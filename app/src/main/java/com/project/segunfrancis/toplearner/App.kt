@@ -10,6 +10,8 @@ import com.project.segunfrancis.toplearner.ui.viewmodel.LearnersViewModelFactory
 
 /**
  * Created by SegunFrancis
+ *
+ * Manual dependency injection
  */
 
 class App : Application() {

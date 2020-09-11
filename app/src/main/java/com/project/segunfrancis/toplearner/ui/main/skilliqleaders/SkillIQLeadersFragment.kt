@@ -1,4 +1,4 @@
-package com.project.segunfrancis.toplearner.ui.skilliqleaders
+package com.project.segunfrancis.toplearner.ui.main.skilliqleaders
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -39,21 +39,21 @@ class SkillIQLeadersFragment : Fragment() {
         binding.noNetworkButton.setOnClickListener {
             loadRemoteData()
         }
+        binding.skillIqLeadersRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(MarginItemDecoration(16))
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadRemoteData()
-
+        viewModel.getSkillIQLeadersLocal()
         viewModel.skillIqLeadersLocal.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Success -> {
                     skillLeadersAdapter.setData(result.data)
-                    binding.skillIqLeadersRecyclerView.apply {
-                        layoutManager = LinearLayoutManager(requireContext())
-                        adapter = skillLeadersAdapter
-                        addItemDecoration(MarginItemDecoration(16))
-                    }
+                    binding.skillIqLeadersRecyclerView.adapter = skillLeadersAdapter
                     binding.loadingAnimation.hide()
                     binding.noNetworkAnimation.hide()
                     binding.noNetworkButton.hide()

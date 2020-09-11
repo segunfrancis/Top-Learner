@@ -1,4 +1,4 @@
-package com.project.segunfrancis.toplearner.ui.learningleaders
+package com.project.segunfrancis.toplearner.ui.main.learningleaders
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -39,21 +39,21 @@ class LearningLeadersFragment : Fragment() {
         binding.noNetworkButton.setOnClickListener {
             loadRemoteData()
         }
+        binding.learningLeadersRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(MarginItemDecoration(16))
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadRemoteData()
-
+        viewModel.getLearningLeadersLocal()
         viewModel.learningLeadersLocal.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Success -> {
                     learningLeadersAdapter.setData(result.data)
-                    binding.learningLeadersRecyclerView.apply {
-                        layoutManager = LinearLayoutManager(requireContext())
-                        adapter = learningLeadersAdapter
-                        addItemDecoration(MarginItemDecoration(16))
-                    }
+                    binding.learningLeadersRecyclerView.adapter = learningLeadersAdapter
                     binding.loadingAnimation.hide()
                     binding.noNetworkAnimation.hide()
                     binding.noNetworkButton.hide()

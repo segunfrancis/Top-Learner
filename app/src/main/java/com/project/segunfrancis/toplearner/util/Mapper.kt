@@ -1,4 +1,4 @@
-package com.project.segunfrancis.toplearner.data.remote.mappers
+package com.project.segunfrancis.toplearner.util
 
 import com.project.segunfrancis.toplearner.data.local.models.LearningLeadersLocal
 import com.project.segunfrancis.toplearner.data.local.models.SkillIQLeadersLocal
