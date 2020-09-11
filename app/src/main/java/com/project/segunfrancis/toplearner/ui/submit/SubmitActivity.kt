@@ -1,5 +1,6 @@
 package com.project.segunfrancis.toplearner.ui.submit
 
+import android.app.ProgressDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -7,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.project.segunfrancis.toplearner.App
 import com.project.segunfrancis.toplearner.databinding.ActivitySubmitBinding
 import com.project.segunfrancis.toplearner.ui.viewmodel.SubmissionViewModel
-import com.project.segunfrancis.toplearner.util.MyProgressDialog
 import com.project.segunfrancis.toplearner.util.Result.Loading
 import com.project.segunfrancis.toplearner.util.Result.Error
 import com.project.segunfrancis.toplearner.util.Result.Success
@@ -16,7 +16,7 @@ class SubmitActivity : AppCompatActivity(), SubmitPromptDialog.SubmitButtonClick
 
     private lateinit var binding: ActivitySubmitBinding
     private lateinit var viewModel: SubmissionViewModel
-    private lateinit var progressDialog: MyProgressDialog
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,8 @@ class SubmitActivity : AppCompatActivity(), SubmitPromptDialog.SubmitButtonClick
         binding.backButton.setOnClickListener {
             finish()
         }
-        progressDialog = MyProgressDialog(this)
+        progressDialog = ProgressDialog(this)
+        progressDialog.setCancelable(false)
         binding.submitButton.setOnClickListener {
             if (fieldsAreValid()) {
                 showDialog()
@@ -53,6 +54,7 @@ class SubmitActivity : AppCompatActivity(), SubmitPromptDialog.SubmitButtonClick
         viewModel.submissionResponse.observe(this, Observer { result ->
             when (result) {
                 is Loading -> {
+                    progressDialog.setTitle("Please wait")
                     progressDialog.setMessage(result.message)
                     progressDialog.show()
                 }

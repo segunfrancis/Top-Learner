@@ -27,6 +27,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
+                    android:id="@+id/back_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -88,6 +89,7 @@
             app:layout_constraintTop_toBottomOf="@id/imageView2">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/first_name_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName" />
@@ -106,6 +108,7 @@
             app:layout_constraintTop_toBottomOf="@id/imageView2">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/last_name_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName" />
@@ -125,6 +128,7 @@
             app:layout_constraintTop_toBottomOf="@id/text_input_1">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress" />
@@ -144,6 +148,7 @@
             app:layout_constraintTop_toBottomOf="@id/text_input_3">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/project_link_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textUri" />
@@ -157,6 +162,7 @@
             app:layout_constraintGuide_percent="0.5" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
